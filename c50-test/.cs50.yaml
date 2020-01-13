@@ -1,0 +1,11 @@
+check50:
+  checks:
+    hello world:
+      - run: npm install
+        exit: 0
+      - run: node test.js
+        stdout: Hello, world!
+        exit: 0
+  files:
+    - !exclude "*"
+    - !include "*.html"
