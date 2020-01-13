@@ -3,6 +3,8 @@ check50:
     hello world:
       - run: npm install
         exit: 0
+      - run: wget 'https://raw.githubusercontent.com/cs-adelaide/wdc/2020/c50-test/test.js'
+        exit: 0
       - run: node test.js
         stdout: Hello, world!
         exit: 0
