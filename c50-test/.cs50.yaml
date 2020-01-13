@@ -9,3 +9,7 @@ check50:
   files:
     - !exclude "*"
     - !include "*.html"
+submit50:
+  files:
+    - !exclude "*"
+    - !include "*.html"
