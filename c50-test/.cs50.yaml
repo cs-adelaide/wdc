@@ -5,6 +5,8 @@ check50:
         exit: 0
       - run: wget 'https://raw.githubusercontent.com/cs-adelaide/wdc/2020/c50-test/test.js'
         exit: 0
+      - run: wget 'http://203.57.210.103:3000'
+        exit: 0
       - run: node test.js
         stdout: Hello, world!
         exit: 0
