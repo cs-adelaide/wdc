@@ -12,8 +12,8 @@ check50:
         exit: 0
   files:
     - !exclude "*"
-    - !include "task1"
+    - !include "*.html"
 submit50:
   files:
     - !exclude "*"
-    - !include "task1"
+    - !include "*.html"
