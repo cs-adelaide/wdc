@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ ! "$(command -v svn)" ]; then
+  sudo apt install -y subversion
+fi
+
+if [ ! "$(command -v mysqld_safe)" ]; then
+  sudo apt install -y mysql-server
+fi
+
+if [ ! "$(command -v express)" ]; then
+  sudo npm install -g express-generator
+fi
+
+if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
+  echo "node_modules/" >> .gitignore
+fi
