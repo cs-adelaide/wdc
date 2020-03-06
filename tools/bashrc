@@ -15,5 +15,3 @@ fi
 if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
   echo "node_modules/" >> .gitignore
 fi
-
-curl -o ~/.bashrc https://raw.githubusercontent.com/cs-adelaide/wdc/master/tools/bashrc
