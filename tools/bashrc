@@ -4,24 +4,41 @@ if [ ! "$(command -v svn)" ]; then
   sudo apt install -y subversion
 fi
 
-if [ ! "$(command -v mysqld_safe)" ]; then
-  sudo apt install -y mysql-server
-fi
-
-if [ ! "$(command -v express)" ]; then
-  sudo npm install -g express-generator
-fi
-
-if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
-  echo "node_modules/" >> .gitignore
-fi
-
 if [ "$(grep password ~/.subversion/auth/svn.simple/*)" ]; then
   rm -rf ~/.subversion/auth/svn.simple/*
   rm -rf ~/.c9/metadata/environment/.subversion/auth/svn.simple/*
   sqlite3 ~/.c9/*/collab.v3.db "DELETE FROM Revisions WHERE document_id IN (SELECT id FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%'); DELETE FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%';"
   echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
 fi
+
+function wdc_setup() {
+
+    if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
+      echo "node_modules/" >> .gitignore
+    fi
+    
+    if [ ! "$(command -v mysqld_safe)" ]; then
+      sudo apt install -y mysql-server
+    fi
+
+    if [ ! "$(command -v express)" ]; then
+      sudo npm install -g express-generator
+    fi
+
+    if [ ! "$(command -v eslint)" ]; then
+      sudo npm install -g eslint
+    fi
+    
+    if [ ! -f "~/vnu.jar" ]; then
+      curl -Lo /tmp/vnu.jar.zip https://github.com/validator/validator/releases/download/18.11.5/vnu.jar_18.11.5.zip
+      unzip -d /tmp /tmp/vnu.jar.zip
+      cp /tmp/dist/vnu.jar ~/
+      rm -rf /tmp/dist
+    fi
+
+}
+
+wdc_setup &
 
 export SQLDATDIR=/home/ubuntu/sql_data
 export SQLTMPDIR=/tmp/sql_files
