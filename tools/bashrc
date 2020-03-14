@@ -27,12 +27,12 @@ if [ ! "$(command -v eslint)" ]; then
   sudo npm install -g eslint
 fi
 
-if [ ! -f "~/vnu.jar" ]; then
-  curl -Lo /tmp/vnu.jar.zip https://github.com/validator/validator/releases/download/18.11.5/vnu.jar_18.11.5.zip
-  unzip -d /tmp /tmp/vnu.jar.zip
-  cp /tmp/dist/vnu.jar ~/
-  rm -rf /tmp/dist
-fi
+#if [ ! -f "~/vnu.jar" ]; then
+#  curl -Lo /tmp/vnu.jar.zip https://github.com/validator/validator/releases/download/18.11.5/vnu.jar_18.11.5.zip
+#  unzip -d /tmp /tmp/vnu.jar.zip
+#  cp /tmp/dist/vnu.jar ~/
+#  rm -rf /tmp/dist
+#fi
 
 
 export SQLDATDIR=/home/ubuntu/sql_data
