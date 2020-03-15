@@ -1,18 +1,18 @@
 #!/bin/bash
 
+if [ "$(grep password ~/.subversion/auth/svn.simple/*)" ]; then
+  rm -rf ~/.subversion/auth/svn.simple/*
+  rm -rf ~/.c9/metadata/environment/.subversion/auth/svn.simple/*
+  sqlite3 ~/.c9/*/collab.v3.db "DELETE FROM Revisions WHERE document_id IN (SELECT id FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%'); DELETE FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%';"
+  echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
+fi
+
 # Function to install WDC software
 # DO NOT run this automatically; it may break your CS50 IDE
 function wdc_setup() {
 
     if [ ! "$(command -v svn)" ]; then
       sudo apt install -y subversion
-    fi
-
-    if [ "$(grep password ~/.subversion/auth/svn.simple/*)" ]; then
-      rm -rf ~/.subversion/auth/svn.simple/*
-      rm -rf ~/.c9/metadata/environment/.subversion/auth/svn.simple/*
-      sqlite3 ~/.c9/*/collab.v3.db "DELETE FROM Revisions WHERE document_id IN (SELECT id FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%'); DELETE FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%';"
-      echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
     fi
 
     if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
