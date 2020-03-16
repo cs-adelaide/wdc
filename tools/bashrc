@@ -15,6 +15,7 @@ function svn() {
 
     if [ ! "$(type -f svn)" ]; then
       sudo apt install -y subversion
+      command svn propset svn:ignore node_modules .
       echo -e "\nSubversion Installed\n\n\n\n\n\n"
     fi
 
