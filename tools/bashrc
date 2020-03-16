@@ -1,35 +1,53 @@
 #!/bin/bash
 
-if [ "$(grep password ~/.subversion/auth/svn.simple/*)" ]; then
-  rm -rf ~/.subversion/auth/svn.simple/*
-  rm -rf ~/.c9/metadata/environment/.subversion/auth/svn.simple/*
-  sqlite3 ~/.c9/*/collab.v3.db "DELETE FROM Revisions WHERE document_id IN (SELECT id FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%'); DELETE FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%';"
-  echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
+if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
+  echo "node_modules/" >> .gitignore
 fi
 
-# Function to install WDC software
-# DO NOT run this automatically; it may break your CS50 IDE
-function wdc_setup() {
+function svn() {
 
-    if [ ! "$(command -v svn)" ]; then
+    if [ "$(grep password ~/.subversion/auth/svn.simple/*)" ]; then
+      rm -rf ~/.subversion/auth/svn.simple/*
+      rm -rf ~/.c9/metadata/environment/.subversion/auth/svn.simple/*
+      sqlite3 ~/.c9/*/collab.v3.db "DELETE FROM Revisions WHERE document_id IN (SELECT id FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%'); DELETE FROM Documents WHERE path LIKE '%subversion/auth/svn.simple%';"
+      echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
+    fi
+
+    if [ ! "$(type -f svn)" ]; then
       sudo apt install -y subversion
+      echo -e "\nSubversion Installed\n\n\n\n\n\n"
     fi
 
-    if [ ! "$(grep node_modules/ ~/.gitignore)" ]; then
-      echo "node_modules/" >> .gitignore
-    fi
+    args=( "$@" )
+    command svn "${args[@]}"
 
-    if [ ! "$(command -v mysqld_safe)" ]; then
-      sudo apt install -y mysql-server
-    fi
+}
 
-    if [ ! "$(command -v express)" ]; then
+function express() {
+
+    if [ ! "$(type -f express)" ]; then
       sudo npm install -g express-generator
+      echo -e "\nExpress Generator Installed\n\n\n\n\n\n"
     fi
 
-    if [ ! "$(command -v eslint)" ]; then
+    args=( "$@" )
+    command express "${args[@]}"
+
+}
+
+function eslint() {
+
+    if [ ! "$(type -f eslint)" ]; then
       sudo npm install -g eslint
+      echo -e "\nESLint Installed\n\n\n\n\n\n"
     fi
+
+    args=( "$@" )
+    command eslint "${args[@]}"
+
+}
+
+function vnu() {
 
     if [ ! -f "~/vnu.jar" ]; then
       curl -Lo /tmp/vnu.jar.zip https://github.com/validator/validator/releases/download/18.11.5/vnu.jar_18.11.5.zip
@@ -37,6 +55,9 @@ function wdc_setup() {
       cp /tmp/dist/vnu.jar ~/
       rm -rf /tmp/dist
     fi
+
+    args=( "$@" )
+    java -jar ~/vnu.jar "${args[@]}"
 
 }
 
@@ -65,6 +86,11 @@ function stop_sql() {
 }
 
 function start_sql() {
+
+    if [ ! "$(command -v mysqld_safe)" ]; then
+      sudo apt install -y mysql-server
+      echo -e "\nSQL Server Installed\n\n\n\n\n\n"
+    fi
 
     SQLINIT=0
 
@@ -148,6 +174,10 @@ function start_sql() {
 
 }
 
-export -f wdc_setup
+export -f svn
+export -f express
+export -f eslint
+export -f vnu
 export -f stop_sql
 export -f start_sql
+
