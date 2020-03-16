@@ -13,9 +13,14 @@ function svn() {
       echo -e '\nstore-passwords = no\nstore-ssl-client-cert-pp = no\nstore-plaintext-passwords = no\nstore-ssl-client-cert-pp-plaintext = no' >> ~/.subversion/servers
     fi
 
+    # Add globally ignored files
+    if [ ! "$(grep "^global-ignores.*" ~/.subversion/config)" ]; then
+        sed -i 's/# global-ignores.*/global-ignores = *.o *.lo *.la *.al .libs *.so *.so.[0-9]* *.a *.pyc *.pyo __pycache__ node_modules .*.swp .DS_Store [Tt]humbs.db /' ~/.subversion/config
+    fi
+
+    # Install SVN
     if [ ! "$(type -f svn)" ]; then
       sudo apt install -y subversion
-      command svn propset svn:ignore node_modules .
       echo -e "\nSubversion Installed\n\n\n\n\n\n"
     fi
 
