@@ -99,6 +99,12 @@ function start_sql() {
     fi
 
     SQLINIT=0
+    
+    if [ ! -d "$SQLTMPDIR" ]; then
+        # Setup tmpdir
+        mkdir "$SQLTMPDIR"
+        chmod 777 "$SQLTMPDIR"
+    fi
 
     if [ ! -d "$SQLDATDIR" ]; then
         # Database not setup yet, do install
