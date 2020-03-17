@@ -55,7 +55,7 @@ function eslint() {
 
 function vnu() {
 
-    if [ ! -f ~/vnu.jar ]; then
+    if [ ! -e /home/ubuntu/vnu.jar ]; then
       curl -Lo /tmp/vnu.jar.zip https://github.com/validator/validator/releases/download/18.11.5/vnu.jar_18.11.5.zip
       unzip -d /tmp /tmp/vnu.jar.zip
       cp /tmp/dist/vnu.jar ~/
