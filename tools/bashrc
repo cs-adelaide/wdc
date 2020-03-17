@@ -111,7 +111,7 @@ function start_sql() {
         mkdir "$SQLDATDIR"
         chmod 777 "$SQLDATDIR"
         printf '\n\033[1mInstalling SQL database files...\033[0m\n'
-        mysqld_safe --initialize-insecure --log-error="$SQLTMPDIR/mariadb.log" --basedir=/usr --innodb_log_file_size=16M --innodb_log_group_home_dir="$SQLTMPDIR" --datadir="$SQLDATDIR" --user=$USER
+        mysqld_safe --initialize-insecure --log-error="$SQLTMPDIR/mariadb.log" --basedir=/usr --innodb_log_file_size=16M --innodb_log_group_home_dir="$SQLTMPDIR" --datadir="$SQLDATDIR" --user=$USER --pid-file="$SQLTMPDIR/mariadb.pid" --socket="$SQLTMPDIR/mysql.sock"
         SQLINIT=1
     fi
 
