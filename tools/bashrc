@@ -109,9 +109,7 @@ function start_sql() {
     if [ ! -d "$SQLDATDIR" ]; then
         # Database not setup yet, do install
         mkdir "$SQLDATDIR"
-        mkdir "$SQLTMPDIR"
         chmod 777 "$SQLDATDIR"
-        chmod 777 "$SQLTMPDIR"
         printf '\n\033[1mInstalling SQL database files...\033[0m\n'
         mysqld_safe --initialize-insecure --log-error="$SQLTMPDIR/mariadb.log" --basedir=/usr --innodb_log_file_size=16M --innodb_log_group_home_dir="$SQLTMPDIR" --datadir="$SQLDATDIR" --user=$USER
         SQLINIT=1
