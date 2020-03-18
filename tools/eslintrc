@@ -53,10 +53,11 @@ rules:
   valid-typeof: 2
   no-console: 1
   no-eq-null: 2
+  no-labels: 2
   semi: 2
   no-eval: 2
 env:
   browser: true
   es6: true
-  node: false
-  jquery: false
+  node: true
+  jquery: true
